@@ -24,7 +24,9 @@ COMPILER_ARGS_PYT = ["-O3", "-ffast-math", "-mfpmath=sse", "-march=native",
                       "-fopenmp", "-std=c++11", "-fno-math-errno", "-w",
                       "-fvisibility=hidden", "-fno-wrapv", "-DUSE_XSIMD",
                      "-DNDEBUG", "-finline-limit=100000"]
-LINK_ARGS = ["-fopenmp", "-lm", "-Wl,-strip-all"]
+# LINK_ARGS = ["-fopenmp", "-lm", "-Wl,-strip-all"]
+LINK_ARGS = ["-fopenmp", "-lm"]
+
 
 WIN_LINK_ARGS = ["/openmp"]
 
