@@ -42,3 +42,4 @@ equaliser_cython.c*
 
 /Scripts/Notebooks/Demo of transmitter impairment simulation - constant ASE noise model.ipynb
 dist/qampy-0.5.1-py3.9-macosx-10.9-x86_64.egg
+Scripts/log.txt

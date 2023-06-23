@@ -89,6 +89,8 @@ def bps(E, Mtestangles, N, **kwargs):
     ----------
     ..[1] Timo Pfau et al, Hardware-Efficient Coherent Digital Receiver Concept With Feedforward Carrier Recovery for M-QAM Constellations, Journal of Lightwave Technology 27, pp 989-999 (2009)
     """
+    print(E.coded_symbols)
+    
     return core.phaserecovery.bps(E, Mtestangles, E.coded_symbols, N, **kwargs)
 
 def find_freq_offset(sig, average_over_modes = False, fft_size = 4096):

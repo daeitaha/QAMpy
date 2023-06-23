@@ -49,6 +49,8 @@ from qampy.core.signal_quality import make_decision, generate_bitmapping_mtx,\
     estimate_snr, soft_l_value_demapper_minmax, soft_l_value_demapper, cal_mi
 from qampy.core.io import save_signal
 
+from commpy import modulation, utilities
+
 
 class RandomBits(np.ndarray):
     """
@@ -767,6 +769,7 @@ class SignalQAMGrayCoded(SignalBase):
         out = np.empty_like(symbs).astype(dtype)
         for i in range(symbs.shape[0]):
             out[i], _, idx = make_decision(np.copy(symbs[i]), coded_symbols) # need a copy to avoid a pythran error
+            out[i] = symbs[i]
         bits = cls._demodulate(idx, encoding)
         obj = np.asarray(out).view(cls)
         obj._M = M
@@ -776,6 +779,18 @@ class SignalQAMGrayCoded(SignalBase):
         obj._encoding = encoding
         obj._code = graycode
         obj._bitmap_mtx = bitmap_mtx
+        
+        qam_model         = modulation.QAMModem(M)
+               
+        def modulator(qam_idx,M):
+            return np.conj(qam_model.modulate(utilities.dec2bitarray(qam_idx, np.int32(np.log2(M)))))
+         
+        modulator_vec     = np.vectorize(modulator)
+        
+        qam_list          = modulator_vec(np.arange(M),M)
+        
+        coded_symbols = qam_list
+        
         obj._coded_symbols = coded_symbols
         obj._bitmap_mtx = bitmap_mtx
         obj._symbols = obj.copy()
